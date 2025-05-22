@@ -23,11 +23,11 @@ class CreateLayananTable extends Migration
             'nama_layanan'  => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '50',
-                'null'              => true
+                'null'              => false
             ],
             'deskripsi_layanan' => [
                 'type'              => 'TEXT',
-                'null'              => false
+                'null'              => true
             ]
             ]);
         $this->forge->addKey('id_layanan', true);
