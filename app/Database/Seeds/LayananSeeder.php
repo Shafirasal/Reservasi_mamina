@@ -20,11 +20,11 @@ class LayananSeeder extends Seeder
             "Toddler Swim"
         ];
 
-        foreach ($layanan as $index => $nama) {
+        foreach ($layanan as $index => $nama_layanan) {
             $this->db->table('layanan')->insert([
                 'kode_layanan'       => 'LYN' . str_pad($index + 1, 3, '0', STR_PAD_LEFT),
-                'nama_layanan'       => $nama,
-                'deskripsi_layanan'  => 'Deskripsi untuk ' . $nama
+                'nama_layanan'       => $nama_layanan,
+                'deskripsi_layanan'  => 'Deskripsi untuk ' . $nama_layanan
             ]);
         }
     }
