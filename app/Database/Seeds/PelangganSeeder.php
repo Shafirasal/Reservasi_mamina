@@ -208,7 +208,79 @@ class PelangganSeeder extends Seeder
                 'no_hp_pelanggan' => '0895622732614',
                 'kota_pelanggan' => 'Malang',
                 'status_member' => 0
-            ]
+            ],
+            [
+                'nama_pelanggan' => 'Haifa layree dinanthi',
+                'nama_ortu_pelanggan' => 'Nurul Farida',
+                'usia_pelanggan' => '2 minggu',
+                'no_hp_pelanggan' => '081232546275',
+                'kota_pelanggan' => 'Kediri',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Inasywa Sekala Mahesw',
+                'nama_ortu_pelanggan' => 'Wenny Dwi Rosita',
+                'usia_pelanggan' => '29 hari',
+                'no_hp_pelanggan' => '081338455910',
+                'kota_pelanggan' => 'Kediri',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Humaira',
+                'nama_ortu_pelanggan' => 'Agnes',
+                'usia_pelanggan' => '6 bulan',
+                'no_hp_pelanggan' => '082333952816',
+                'kota_pelanggan' => 'Nganjuk',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Ahmad Ibrahim',
+                'nama_ortu_pelanggan' => 'Qumillaila',
+                'usia_pelanggan' => '10 bulan',
+                'no_hp_pelanggan' => '0816286101',
+                'kota_pelanggan' => 'Kediri',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Nacheyla',
+                'nama_ortu_pelanggan' => 'Vivi',
+                'usia_pelanggan' => '7 bulan',
+                'no_hp_pelanggan' => '085706882826',
+                'kota_pelanggan' => 'Kediri',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Elshaka Nouvel Prasetiya',
+                'nama_ortu_pelanggan' => 'Putri Arvita',
+                'usia_pelanggan' => '4,5 bulan',
+                'no_hp_pelanggan' => '081335838320',
+                'kota_pelanggan' => 'Kediri',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Nada Jennaira A',
+                'nama_ortu_pelanggan' => 'Galuh Mahanani',
+                'usia_pelanggan' => '3 tahun',
+                'no_hp_pelanggan' => '081217358555',
+                'kota_pelanggan' => 'Malang',
+                'status_member' => 1
+            ],
+            [
+                'nama_pelanggan' => 'Ivy',
+                'nama_ortu_pelanggan' => 'Arum',
+                'usia_pelanggan' => '7 bulan',
+                'no_hp_pelanggan' => '087862790276',
+                'kota_pelanggan' => 'Malang',
+                'status_member' => 0
+            ],
+            [
+                'nama_pelanggan' => 'Azalia Sabitha Dzahin',
+                'nama_ortu_pelanggan' => 'Wulan Maretha',
+                'usia_pelanggan' => '4 bulan',
+                'no_hp_pelanggan' => '081235792358',
+                'kota_pelanggan' => 'Malang',
+                'status_member' => 1
+            ],
         ];
 
         $this->db->table('m_pelanggan')->insertBatch($data);
