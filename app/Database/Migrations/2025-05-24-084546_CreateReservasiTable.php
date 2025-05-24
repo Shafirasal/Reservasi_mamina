@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateReservasi extends Migration
+class CreateReservasiTable extends Migration
 {
      public function up()
     {
@@ -19,35 +19,6 @@ class CreateReservasi extends Migration
                 'type'              => 'DATE',
                 'null'              => false,
             ],
-            'nama_bunda'  => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '40',
-                'null'              => false
-            ],
-            'nama_anak'  => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '40',
-                'null'              => false
-            ],
-            'usia_anak' => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '20',
-                'null'              => true
-            ],
-                'nomor_telepon'  => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '15',
-                'null'              => false
-            ],
-                'kota'  => [
-                'type'              => 'VARCHAR',
-                'constraint'        => '15',
-                'null'              => false
-            ],
-                'member'  => [
-                'type'              => "ENUM('Member', 'Non Member')",
-                'null'               => false
-            ],
                 'jenis_layanan'  => [
                 'type'              => "ENUM('Home Care', 'Outlet')",
                 'null'               => false
@@ -61,10 +32,39 @@ class CreateReservasi extends Migration
                 'type'              => 'TIME',
                 'null'              => false
             ],
+            'status' => [
+                'type'       => "ENUM('Menunggu', 'Selesai', 'Batal')",
+                'null'       => false,
+                'default'    => 'Menunggu',
+                'after'      => 'jam_reservasi' 
+            ],
+            'id_pelanggan' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+                'null'       => false
+            ],
+            'id_layanan' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'unsigned'   => true,
+                'null'       => false
+            ],
+            'id_ulasan' => [
+                'type'      => 'INT',
+                'constraint'    => 11,
+                'unsigned'      => true,
+                'null'          => false
+            ]
 
             ]);
         $this->forge->addKey('id_reservasi', true);
+        $this->forge->addForeignKey('id_pelanggan','pelanggan','id_pelanggan');
+        $this->forge->addForeignKey('id_layanan','layanan','id_layanan');
+        $this->forge->addForeignKey('id_ulasan','ulasan','id_ulasan');
         $this->forge->createTable('reservasi');
+
+
     }
 
     public function down()

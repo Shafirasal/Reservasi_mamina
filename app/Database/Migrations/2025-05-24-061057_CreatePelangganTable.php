@@ -49,12 +49,12 @@ class CreatePelangganTable extends Migration
             ]);
             
             $this->forge->addKey('id_pelanggan', true);
-            $this->forge->createTable('m_pelanggan');
+            $this->forge->createTable('pelanggan');
 
     }
 
     public function down()
     {
-        $this->forge->dropTable('m_pelanggan');
+        $this->forge->dropTable('pelanggan');
     }
 }

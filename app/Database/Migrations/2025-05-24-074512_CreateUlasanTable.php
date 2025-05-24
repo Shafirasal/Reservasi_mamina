@@ -56,11 +56,12 @@ class CreateUlasanTable extends Migration
         ]);
 
         $this->forge->addKey('id_ulasan', true); // Primary Key
-        $this->forge->createTable('ulasan');
 
         // Tambahkan foreign key:
         $this->forge->addForeignKey('id_pelanggan', 'pelanggan', 'id_pelanggan', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_layanan', 'layanan', 'id_layanan', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('ulasan');
+
     }
 
     public function down()
