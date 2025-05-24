@@ -283,6 +283,6 @@ class PelangganSeeder extends Seeder
             ],
         ];
 
-        $this->db->table('m_pelanggan')->insertBatch($data);
+        $this->db->table('pelanggan')->insertBatch($data);
     }
 }
