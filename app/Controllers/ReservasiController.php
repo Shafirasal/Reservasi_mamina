@@ -32,7 +32,7 @@ class ReservasiController extends BaseController
 
     public function create()
     {
-        return view('create');
+        return view('reservasi_form');
     }
 
     public function store()
@@ -49,6 +49,6 @@ class ReservasiController extends BaseController
         ];
 
         $this->reservasiModel->insert($data);
-        return redirect()->to('/');
+        return redirect()->to('reservasi');
     }
 }
