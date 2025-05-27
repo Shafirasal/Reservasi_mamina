@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+
+<?php
+/** @var \CodeIgniter\View\View $this */
+?>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
