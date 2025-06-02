@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class PelangganModel extends Model
 {
-    protected $table      = 'reservasi_mamina_pelanggan';
+    protected $table      = 'pelanggan';
     protected $primaryKey = 'id_pelanggan';
 
     protected $allowedFields = [
@@ -17,7 +17,4 @@ class PelangganModel extends Model
         'kota_pelanggan',
         'status_member'
     ];
-
-    // protected $returnType     = 'array';
-    protected $useTimestamps  = true;
 }

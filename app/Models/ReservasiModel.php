@@ -1,14 +1,12 @@
 <?php
 
 namespace App\Models;
-
 use CodeIgniter\Model;
 
 class ReservasiModel extends Model
 {
-    protected $table      = 'reservasi';
+    protected $table = 'reservasi';
     protected $primaryKey = 'id_reservasi';
-
     protected $allowedFields = [
         'tanggal_reservasi',
         'jenis_layanan',
@@ -17,9 +15,5 @@ class ReservasiModel extends Model
         'status',
         'id_pelanggan',
         'id_layanan',
-        'id_ulasan'
     ];
-
-    // protected $returnType     = 'array';
-    protected $useTimestamps  = false;
 }
