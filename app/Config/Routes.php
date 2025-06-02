@@ -7,5 +7,6 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('dashboard', 'ReservasiController::index'); 
-$routes->get('reservasi/create', 'ReservasiController::create');  // tampilkan form create
-$routes->post('reservasi/store', 'ReservasiController::store');   // proses simpan data
+$routes->get('create', 'ReservasiController::create');
+$routes->post('store', 'ReservasiController::store');
+$routes->get('cari_pelanggan', 'ReservasiController::cari_pelanggan');
