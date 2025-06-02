@@ -32,36 +32,28 @@ class CreateReservasiTable extends Migration
                 'type'              => 'TIME',
                 'null'              => false
             ],
-            'status' => [
-                'type'       => "ENUM('Menunggu', 'Selesai', 'Batal')",
-                'null'       => false,
-                'default'    => 'Menunggu',
-                'after'      => 'jam_reservasi' 
+                'status' => [
+                    'type'       => "ENUM('Menunggu', 'Selesai', 'Batal')",
+                    'null'       => false,
+                    'default'    => 'Menunggu',
+                    'after'      => 'jam_reservasi' 
             ],
-            'id_pelanggan' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
-                'null'       => false
+                'id_pelanggan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'unsigned'   => true,
+                    'null'       => false
             ],
-            'id_layanan' => [
-                'type'       => 'INT',
-                'constraint' => 11,
-                'unsigned'   => true,
-                'null'       => false
+                'id_layanan' => [
+                    'type'       => 'INT',
+                    'constraint' => 11,
+                    'unsigned'   => true,
+                    'null'       => false
             ],
-            'id_ulasan' => [
-                'type'      => 'INT',
-                'constraint'    => 11,
-                'unsigned'      => true,
-                'null'          => false
-            ]
-
             ]);
         $this->forge->addKey('id_reservasi', true);
         $this->forge->addForeignKey('id_pelanggan','pelanggan','id_pelanggan');
         $this->forge->addForeignKey('id_layanan','layanan','id_layanan');
-        $this->forge->addForeignKey('id_ulasan','ulasan','id_ulasan');
         $this->forge->createTable('reservasi');
 
 
