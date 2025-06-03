@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('dashboard', 'ReservasiController::index'); 
+
+//Fitur Reservasi
 $routes->get('create', 'ReservasiController::create');
 $routes->post('store', 'ReservasiController::store');
 $routes->get('cari_pelanggan', 'ReservasiController::cari_pelanggan');
