@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
 
 
     <style>
@@ -83,6 +84,7 @@
             color: var(--primary);
             position: relative;
             display: inline-block;
+            font-family: 'Roboto Slab', serif;
         }
         
         .custom-title:after {
@@ -162,7 +164,7 @@
         <!-- Data Pelanggan -->
         <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white">
-            <strong><i class="bi bi-person-lines-fill me-2"></i>Data Pelanggan</strong>
+            <strong><i class="bi bi-person-lines-fill me-2 text-white"></i>Data Pelanggan</strong>
         </div>
         <div class="card-body" style="background-color: rgba(180, 235, 230, 0.2);">
 
@@ -261,7 +263,7 @@
         <!-- Data Reservasi -->
         <div class="card shadow-sm mb-4">
         <div class="card-header bg-primary text-white">
-            <strong><i class="bi bi-journal-bookmark-fill me-2"></i>Data Reservasi</strong>
+            <strong><i class="bi bi-journal-bookmark-fill me-2 text-white"></i>Data Reservasi</strong>
         </div>
         <div class="card-body" style="background-color: rgba(180, 235, 230, 0.2);">
             <div class="row">
@@ -349,7 +351,7 @@
         </div>
         <div class="text-end">
         <button type="submit" class="btn btn-success px-4 py-2 rounded-pill">
-            <i class="bi bi-save me-1"></i> Simpan Reservasi
+            <i class="bi bi-save me-1 text-white"></i> Simpan Reservasi
         </button>
         </div>
     </form>
