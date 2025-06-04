@@ -6,7 +6,7 @@ use CodeIgniter\Model;
 
 class UlasanModel extends Model
 {
-    protected $table      = 'reservasi_mamina_ulasan';
+    protected $table      = 'ulasan';
     protected $primaryKey = 'id_ulasan';
 
     protected $allowedFields = [
