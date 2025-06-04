@@ -141,11 +141,16 @@
         <h2 class="custom-title"></i>Form Reservasi Baby Spa</h2>
     </div>
 
-    <?php if (session()->getFlashdata('success')): ?>
+    < <?php if (session()->getFlashdata('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?= session()->getFlashdata('success') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+        <script>
+            setTimeout(function() {
+                window.location.href = "<?= base_url('dashboard') ?>";
+            }, 1000);
+        </script>
     <?php endif; ?>
 
     <?php if (isset($errors)): ?>
@@ -173,7 +178,7 @@
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                <label class="form-label">Nama Pelanggan</label>
+                <label class="form-label">Nama Anak</label>
                 <input type="text" class="form-control" value="<?= esc($pelanggan['nama_pelanggan']) ?>" readonly>
                 </div>
                 <div class="col-md-6 mb-3">
@@ -349,10 +354,13 @@
             </div>
         </div>
         </div>
-        <div class="text-end">
-        <button type="submit" class="btn btn-success px-4 py-2 rounded-pill">
-            <i class="bi bi-save me-1 text-white"></i> Simpan Reservasi
-        </button>
+        <div class="d-flex justify-content-end gap-2">
+            <a href="<?= base_url('dashboard') ?>" class="btn btn-success px-4 py-2 rounded-pill">
+                <i class="bi bi-arrow-left me-1"></i> Kembali
+            </a>
+            <button type="submit" class="btn btn-success px-4 py-2 rounded-pill">
+                <i class="bi bi-save me-1 text-white"></i> Simpan Reservasi
+            </button>
         </div>
     </form>
     </div>
@@ -386,9 +394,9 @@
                     $("#no_hp_pelanggan").val(ui.item.data.no_hp_pelanggan);
                     $("#kota_pelanggan").val(ui.item.data.kota_pelanggan);
                     $("#status_member").val(ui.item.data.status_member);
-                    $("[name='nama_ortu_pelanggan'], [name='usia_pelanggan'], [name='no_hp_pelanggan'], [name='kota_pelanggan'], [name='status_member']")
-                        .prop('readonly', true)
-                        .css('background-color', 'rgba(255, 253, 235, 0.5)');
+                    $("[name='nama_ortu_pelanggan'], [name='usia_pelanggan'], [name='no_hp_pelanggan'], [name='kota_pelanggan']")
+                        .prop('readonly', true).css('background-color', 'rgba(255, 253, 235, 0.5)');
+                    $("[name='status_member']").prop('disabled', true).css('background-color', 'rgba(255, 253, 235, 0.5)');
                 }
             }
         });
