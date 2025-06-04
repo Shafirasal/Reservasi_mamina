@@ -18,6 +18,114 @@ class ReservasiController extends BaseController
         $this->reservasiModel = new ReservasiModel();
     }
 
+    //  public function index()
+    // {
+    //     $tanggal = $this->request->getGet('tanggal');
+        
+    //     $query = $this->reservasiModel;
+
+    //     if ($tanggal) {
+    //         $query = $query->where('tanggal_reservasi', $tanggal);
+    //     }
+
+    //     $data['reservasi'] = $query->findAll();
+
+    //     $data['tanggal'] = $tanggal;
+
+    //     return view('dashboard', $data);
+    // }
+
+
+
+
+    // public function index()
+    // {
+    //     // Koneksi ke database
+    //     $db = \Config\Database::connect();
+
+    //     // Query builder untuk join reservasi dengan pelanggan
+    //     $builder = $db->table('reservasi');
+    //     $builder->select('
+    //         reservasi.id_reservasi,
+    //         reservasi.tanggal_reservasi,
+    //         reservasi.jenis_layanan,
+    //         reservasi.jam_reservasi,
+    //         reservasi.status,
+    //         pelanggan.nama_pelanggan
+    //     ');
+    //     $builder->join('pelanggan', 'pelanggan.id_pelanggan = reservasi.id_pelanggan');
+    //     $builder->orderBy('reservasi.tanggal_reservasi', 'DESC');
+
+    //     // Eksekusi dan ambil hasilnya
+    //     $data['reservasi'] = $builder->get()->getResultArray();
+
+    //     // Kirim ke view dashboard.php
+    //     return view('dashboard', $data);
+    // }
+
+
+public function index()
+{
+    $db = \Config\Database::connect();
+
+    $builder = $db->table('reservasi');
+    $builder->select('
+        reservasi.id_reservasi,
+        reservasi.tanggal_reservasi,
+        reservasi.jenis_layanan,
+        reservasi.jam_reservasi,
+        reservasi.status,
+        pelanggan.nama_pelanggan,
+        layanan.nama_layanan
+    ');
+    $builder->join('pelanggan', 'pelanggan.id_pelanggan = reservasi.id_pelanggan');
+    $builder->join('layanan', 'layanan.id_layanan = reservasi.id_layanan');
+    $builder->orderBy('reservasi.tanggal_reservasi', 'DESC');
+
+    $data['reservasi'] = $builder->get()->getResultArray();
+
+    return view('dashboard', $data);
+}
+
+
+
+public function edit($id)
+{
+    $db = \Config\Database::connect();
+
+    $reservasi = $db->table('reservasi')->where('id_reservasi', $id)->get()->getRowArray();
+    $pelanggan = $db->table('pelanggan')->get()->getResultArray();
+    $layanan   = $db->table('layanan')->get()->getResultArray(); // ambil semua layanan
+
+    return view('edit_reservasi', [
+        'reservasi' => $reservasi,
+        'pelanggan' => $pelanggan,
+        'layanan'   => $layanan
+    ]);
+}
+
+
+public function update($id)
+{
+    $db = \Config\Database::connect();
+
+    $data = [
+        'tanggal_reservasi' => $this->request->getPost('tanggal_reservasi'),
+        'jenis_layanan'     => $this->request->getPost('jenis_layanan'), // kalau masih ada enum
+        'jam_reservasi'     => $this->request->getPost('jam_reservasi'),
+        'id_pelanggan'      => $this->request->getPost('id_pelanggan'),
+        'id_layanan'        => $this->request->getPost('id_layanan'), // tambahkan ini!
+        'status'            => $this->request->getPost('status')
+    ];
+
+    $db->table('reservasi')->update($data, ['id_reservasi' => $id]);
+
+    return redirect()->to('/dashboard');
+}
+
+
+
+
     public function create()
     {
         $data = [
