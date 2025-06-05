@@ -55,5 +55,22 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php if ($status = session()->getFlashdata('status')): ?>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    Swal.fire({
+        title: 'Info',
+        text: <?= json_encode($status) ?>,
+        icon: 'success'
+    });
+});
+</script>
+<?php endif; ?>
+<script>
+console.log("Swal:", typeof Swal);
+</script>
+
 </body>
 </html>

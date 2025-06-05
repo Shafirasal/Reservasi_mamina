@@ -112,7 +112,11 @@ class BroadcastController extends BaseController
         //    log_message('error', 'API error: ' . $e->getMessage());
         //    return redirect()->back()->with('error', 'Terjadi kesalahan saat mengirim reminder.');
         //}
-            exit;
-            return redirect()->to('/')->with('success', 'Reminder berhasil dikirim.');
+            //exit;
+
+        return redirect()->back()->with('status', 'Reminder berhasil dikirim');
+
+        
+        
         }
 }
