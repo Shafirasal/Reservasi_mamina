@@ -11,7 +11,6 @@
 <div class="container my-4">
     <h2>Daftar Reservasi</h2>
     <a href="<?= base_url('/create') ?>" class="btn btn-success mb-3">+ Tambah Reservasi</a>
-
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
@@ -47,6 +46,7 @@
                 </td>
                 <td>
                     <a href="<?= base_url('reservasi/edit/' . $r['id_reservasi']) ?>" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="<?= base_url('broadcast/' . $r['id_pelanggan']) ?>" class="btn btn-sm btn-danger">Reminder</a>
                 </td>
             </tr>
             <?php endforeach ?>

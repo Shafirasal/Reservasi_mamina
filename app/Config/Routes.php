@@ -21,3 +21,6 @@ $routes->get('cari_pelanggan', 'ReservasiController::cari_pelanggan');
 $routes->get('index', 'UlasanController::index');
 $routes->post('simpan', 'UlasanController::simpan');
 
+// Fitur Broadcast
+$routes->get('broadcast/(:num)','BroadcastController::send/$1');
+$routes->post('broadcast/send','BroadcastController::send');

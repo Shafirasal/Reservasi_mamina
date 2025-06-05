@@ -76,6 +76,7 @@ public function index()
         reservasi.jam_reservasi,
         reservasi.status,
         pelanggan.nama_pelanggan,
+        pelanggan.id_pelanggan,
         layanan.nama_layanan
     ');
     $builder->join('pelanggan', 'pelanggan.id_pelanggan = reservasi.id_pelanggan');
