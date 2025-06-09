@@ -27,7 +27,7 @@
         
         body {
             background-color: var(--light-bg);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         
         .card-header {
@@ -84,7 +84,9 @@
             color: var(--primary);
             position: relative;
             display: inline-block;
-            font-family: 'Roboto Slab', serif;
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.0rem;
+            font-weight: 600; 
         }
         
         .custom-title:after {
