@@ -437,10 +437,10 @@
       text: <?= json_encode($status) ?>,
       icon: 'success',
       confirmButtonColor: '#614DAC',
-      timer: 3000,
+      timer: 2000,
       timerProgressBar: true,
       toast: true,
-      position: 'top-end',
+      position: 'center',
       showConfirmButton: false
     });
   });
