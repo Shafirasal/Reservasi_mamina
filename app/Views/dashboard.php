@@ -198,6 +198,41 @@
       margin-bottom: 1rem;
     }
 
+    .filter-section {
+      background-color: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .filter-title {
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .filter-group {
+      margin-bottom: 1rem;
+    }
+
+    .filter-label {
+      font-weight: 500;
+      color: var(--text-medium);
+      margin-bottom: 0.5rem;
+    }
+
+    .filter-reset {
+      color: var(--accent);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .filter-reset:hover {
+      text-decoration: underline;
+    }
+
     @media (max-width: 768px) {
       .container {
         padding: 1.5rem;
@@ -211,6 +246,10 @@
       .table th, .table td {
         padding: 0.75rem;
       }
+      
+      .filter-section {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -222,6 +261,51 @@
     <a href="<?= base_url('/create') ?>" class="btn btn-success">
       <i class="bi bi-plus-lg me-1"></i> Tambah Reservasi
     </a>
+  </div>
+
+  <!-- Filter Section -->
+  <div class="filter-section">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="filter-group">
+          <label class="filter-label">Filter by Status</label>
+          <select class="form-select" id="statusFilter">
+            <option value="">Semua Status</option>
+            <option value="Menunggu">Menunggu</option>
+            <option value="Selesai">Selesai</option>
+            <option value="Batal">Batal</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="filter-group">
+          <label class="filter-label">Filter by Tanggal</label>
+          <input type="date" class="form-control" id="dateFilter">
+        </div>
+      </div>
+    </div>
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="filter-group">
+          <label class="filter-label">Filter by Jam</label>
+          <select class="form-select" id="timeFilter">
+            <option value="">Semua Jam</option>
+            <?php 
+              // Generate time options from 08:00 to 20:00
+              for ($hour = 8; $hour <= 20; $hour++) {
+                $time = str_pad($hour, 2, '0', STR_PAD_LEFT) . ':00';
+                echo "<option value='$time'>$time</option>";
+              }
+            ?>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6 d-flex align-items-end">
+        <button id="resetFilters" class="btn btn-outline-secondary mt-2">
+          <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filter
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="table-responsive">
@@ -254,7 +338,10 @@
           </tr>
         <?php else: ?>
           <?php $i = 1; foreach ($reservasi as $r): ?>
-          <tr>
+          <tr class="reservation-row" 
+              data-status="<?= esc($r['status']) ?>" 
+              data-date="<?= esc($r['tanggal_reservasi']) ?>"
+              data-time="<?= esc($r['jam_reservasi']) ?>">
             <td class="fw-bold"><?= $i++ ?></td>
             <td class="fw-medium"><?= esc($r['nama_pelanggan']) ?></td>
             <td><?= esc($r['tanggal_reservasi']) ?></td>
@@ -299,8 +386,77 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<?php if ($status = session()->getFlashdata('status')): ?>
 <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Filter functionality
+    const statusFilter = document.getElementById('statusFilter');
+    const dateFilter = document.getElementById('dateFilter');
+    const timeFilter = document.getElementById('timeFilter');
+    const resetFilters = document.getElementById('resetFilters');
+    const reservationRows = document.querySelectorAll('.reservation-row');
+
+    function applyFilters() {
+      const statusValue = statusFilter.value;
+      const dateValue = dateFilter.value;
+      const timeValue = timeFilter.value;
+
+      reservationRows.forEach(row => {
+        const rowStatus = row.getAttribute('data-status');
+        const rowDate = row.getAttribute('data-date');
+        const rowTime = row.getAttribute('data-time');
+
+        // Convert dates to comparable format
+        const filterDate = dateValue ? new Date(dateValue).toISOString().split('T')[0] : null;
+        const rowDateFormatted = rowDate ? new Date(rowDate).toISOString().split('T')[0] : null;
+
+        const statusMatch = !statusValue || rowStatus === statusValue;
+        const dateMatch = !dateValue || rowDateFormatted === filterDate;
+        const timeMatch = !timeValue || rowTime === timeValue;
+
+        if (statusMatch && dateMatch && timeMatch) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Event listeners for filters
+    statusFilter.addEventListener('change', applyFilters);
+    dateFilter.addEventListener('change', applyFilters);
+    timeFilter.addEventListener('change', applyFilters);
+
+    // Reset filters
+    resetFilters.addEventListener('click', function() {
+      statusFilter.value = '';
+      dateFilter.value = '';
+      timeFilter.value = '';
+      applyFilters();
+    });
+
+    // Check if there are filter parameters in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const statusParam = urlParams.get('status');
+    const dateParam = urlParams.get('date');
+    const timeParam = urlParams.get('time');
+
+    if (statusParam) {
+      statusFilter.value = statusParam;
+    }
+    if (dateParam) {
+      dateFilter.value = dateParam;
+    }
+    if (timeParam) {
+      timeFilter.value = timeParam;
+    }
+
+    // Apply filters on page load if parameters exist
+    if (statusParam || dateParam || timeParam) {
+      applyFilters();
+    }
+  });
+
+  <?php if ($status = session()->getFlashdata('status')): ?>
   document.addEventListener("DOMContentLoaded", function() {
     Swal.fire({
       title: 'Berhasil!',
@@ -314,7 +470,7 @@
       showConfirmButton: false
     });
   });
+  <?php endif; ?>
 </script>
-<?php endif; ?>
 </body>
 </html>
