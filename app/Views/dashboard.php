@@ -312,7 +312,7 @@
     <table class="table">
       <thead>
         <tr>
-          <th>#</th>
+          <th>No</th>
           <th>Nama Pelanggan</th>
           <th>Tanggal</th>
           <th>Jenis Layanan</th>
