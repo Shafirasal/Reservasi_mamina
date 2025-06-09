@@ -258,7 +258,7 @@
 <div class="container">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Daftar Reservasi</h2>
-    <a href="<?= base_url('/create') ?>" class="btn btn-success">
+    <a href="<?= base_url('create') ?>" class="btn btn-success">
       <i class="bi bi-plus-lg me-1"></i> Tambah Reservasi
     </a>
   </div>
