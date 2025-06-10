@@ -352,7 +352,7 @@
               <a href="<?= base_url('broadcast/' . $r['id_pelanggan']) ?>" class="btn btn-sm btn-danger" title="Reminder">
                   <i class="bi bi-bell-fill"></i>
               </a>
-              <a href="<?= base_url('ulasan/' . $r['id_reservasi']) ?>" class="btn btn-sm btn-info" title="Ulasan">
+              <a href="<?= base_url('kirim_ulasan/' . $r['id_reservasi']) ?>" class="btn btn-sm btn-info" title="Ulasan">
                   <i class="bi bi-chat-left-text-fill"></i>
               </a>
             </td>
@@ -430,11 +430,11 @@
   <?php if ($status = session()->getFlashdata('status')): ?>
   document.addEventListener("DOMContentLoaded", function() {
     Swal.fire({
-      title: 'Berhasil!',
+     // title: 'Berhasil!',
       text: <?= json_encode($status) ?>,
-      icon: 'success',
+      icon: '',
       confirmButtonColor: '#614DAC',
-      timer: 2000,
+      timer: 5000,
       timerProgressBar: true,
       toast: true,
       position: 'center',

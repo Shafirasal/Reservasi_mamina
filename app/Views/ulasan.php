@@ -137,11 +137,19 @@
 
     <!-- Form -->
     <form action="<?= base_url('simpan') ?>" method="post">
-        <label for="id_pelanggan">ID Pelanggan</label>
-        <input type="text" name="id_pelanggan" id="id_pelanggan" required>
+    <input type="text" value="<?= esc($nama_pelanggan) ?>" disabled>
+    <input type="hidden" name="id_pelanggan" value="<?= esc($id_pelanggan) ?>">
 
-        <label for="id_layanan">ID Layanan</label>
-        <input type="text" name="id_layanan" id="id_layanan" required>
+
+    <input type="text" value="<?= esc($nama_layanan) ?>" disabled>
+    <input type="hidden" name="id_layanan" value="<?= esc($id_layanan) ?>">
+
+
+        <!-- Hidden untuk ID penting -->
+    <input type="hidden" name="id_pelanggan" value="<?= esc($id_pelanggan) ?>">
+    <input type="hidden" name="id_layanan" value="<?= esc($id_layanan) ?>">
+    <input type="hidden" name="id_reservasi" value="<?= esc($id_reservasi) ?>">
+
 
         <label>Kualitas Layanan (1 = Buruk, 5 = Sangat Baik)</label>
         <div class="radio-group">

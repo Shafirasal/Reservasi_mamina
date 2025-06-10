@@ -18,8 +18,14 @@ $routes->post('store', 'ReservasiController::store');
 $routes->get('cari_pelanggan', 'ReservasiController::cari_pelanggan');
 
 // Fitur Ulasan
-$routes->get('index', 'UlasanController::index');
+// $routes->get('index', 'UlasanController::index');
 $routes->post('simpan', 'UlasanController::simpan');
 
 // Fitur Broadcast
 $routes->get('broadcast/(:num)','BroadcastController::send/$1');
+
+
+$routes->get('form-ulasan', 'UlasanController::index');
+$routes->post('simpan', 'UlasanController::simpan');
+
+$routes->get('kirim_ulasan/(:num)', 'BroadcastUlasanController::kirim_ulasan/$1');
