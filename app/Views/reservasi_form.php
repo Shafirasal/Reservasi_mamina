@@ -359,19 +359,56 @@
             </div>
 
             <div class="mb-3">
-            <label class="form-label">Pilih Layanan</label>
-            <select name="id_layanan" class="form-select <?= session('errors.id_layanan') ? 'is-invalid' : '' ?>" required>
-                <option value="" disabled selected>-- Pilih Layanan --</option>
-                <?php foreach ($layanan as $l): ?>
-                <option value="<?= $l['id_layanan'] ?>" <?= old('id_layanan') == $l['id_layanan'] ? 'selected' : '' ?>>
-                    <?= esc($l['nama_layanan']) ?>
-                </option>
-                <?php endforeach; ?>
-            </select>
-            <?php if (session('errors.id_layanan')): ?>
-                <div class="invalid-feedback"><?= session('errors.id_layanan') ?></div>
-            <?php endif; ?>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label mb-0">Pilih Layanan</label>
+                <button type="button" id="add-layanan" style="background-color: #614DAC; border-color: #614DAC; color: #fff;"><i class="bi bi-plus-circle"></i></button>
             </div>
+
+            <div id="layanan-container">
+                <?php
+                    $oldSelectedLayanan = old('id_layanan');
+                    if (!is_array($oldSelectedLayanan)) {
+                        $oldSelectedLayanan = empty($oldSelectedLayanan) ? [] : [$oldSelectedLayanan];
+                    }
+                    if (empty($oldSelectedLayanan)):
+                ?>
+                    <div class="input-group mb-3 layanan-item">
+                        <select name="id_layanan[]" class="form-select layanan-select <?= session('errors.id_layanan') ? 'is-invalid' : '' ?>" required>
+                            <option value="" disabled selected>-- Pilih Layanan --</option>
+                            <?php foreach ($layanan as $l): ?>
+                                <option value="<?= $l['id_layanan'] ?>">
+                                    <?= esc($l['nama_layanan']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="button" class="btn btn-outline-danger remove-layanan" style="display:none;"><i class="bi bi-dash-circle"></i></button>
+                    </div>
+                <?php
+                    else:
+                        foreach ($oldSelectedLayanan as $index => $selectedId):
+                ?>
+                    <div class="input-group mb-3 layanan-item">
+                        <select name="id_layanan[]" class="form-select layanan-select <?= isset(session('errors')['id_layanan.' . $index]) ? 'is-invalid' : '' ?>" required>
+                            <option value="" disabled>-- Pilih Layanan --</option>
+                            <?php foreach ($layanan as $l): ?>
+                                <option value="<?= $l['id_layanan'] ?>" <?= $selectedId == $l['id_layanan'] ? 'selected' : '' ?>>
+                                    <?= esc($l['nama_layanan']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="button" class="btn btn-outline-danger remove-layanan" <?= ($index === 0 && count($oldSelectedLayanan) === 1) ? 'style="display:none;"' : '' ?>><i class="bi bi-dash-circle"></i></button>
+                    </div>
+                    <?php if (isset(session('errors')['id_layanan.' . $index])): ?>
+                        <div class="invalid-feedback d-block"><?= session('errors')['id_layanan.' . $index] ?></div>
+                    <?php endif; ?>
+                <?php
+                        endforeach;
+                    endif;
+                ?>
+            </div>
+            <?php if (session('errors.id_layanan') && !is_array(session('errors.id_layanan'))): ?>
+                <div class="invalid-feedback d-block"><?= session('errors.id_layanan') ?></div>
+            <?php endif; ?>
         </div>
         </div>
         <div class="d-flex justify-content-end gap-2">
@@ -457,6 +494,52 @@
         time_24hr: true,
         minTime: "08:00",
         maxTime: "19:00"
+    });
+
+    $(document).ready(function() {
+        var layananOptions = `
+            <?php foreach ($layanan as $l): ?>
+                <option value="<?= $l['id_layanan'] ?>">
+                    <?= esc($l['nama_layanan']) ?>
+                </option>
+            <?php endforeach; ?>
+        `;
+        function addLayananRow(selectedValue = '') {
+            var newRow = `
+                <div class="input-group mb-3 layanan-item">
+                    <select name="id_layanan[]" class="form-select layanan-select" required>
+                        <option value="" disabled selected>-- Pilih Layanan --</option>
+                        ${layananOptions}
+                    </select>
+                    <button type="button" class="btn btn-outline-danger remove-layanan"><i class="bi bi-dash-circle"></i></button>
+                </div>
+            `;
+            $('#layanan-container').append(newRow);
+            if (selectedValue) {
+                $('#layanan-container .layanan-item:last-child select').val(selectedValue);
+            }
+            updateRemoveButtons();
+        }
+
+        function updateRemoveButtons() {
+            var itemCount = $('.layanan-item').length;
+            if (itemCount > 1) {
+                $('.remove-layanan').show();
+            } else {
+                $('.remove-layanan').hide();
+            }
+        }
+
+        $('#add-layanan').on('click', function() {
+            addLayananRow();
+        });
+
+        $('#layanan-container').on('click', '.remove-layanan', function() {
+            $(this).closest('.layanan-item').remove();
+            updateRemoveButtons();
+        });
+
+        updateRemoveButtons();
     });
     </script>
 
