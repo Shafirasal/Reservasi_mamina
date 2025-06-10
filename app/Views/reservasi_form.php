@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
 
     <style>
@@ -144,26 +145,43 @@
     </div>
 
     <?php if (session()->getFlashdata('success')): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <?= session()->getFlashdata('success') ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
         <script>
-            setTimeout(function() {
-                window.location.href = "<?= base_url('dashboard') ?>";
-            }, 1000);
+            document.addEventListener("DOMContentLoaded", function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: <?= json_encode(session()->getFlashdata('success')) ?>,
+                    icon: 'success',
+                    confirmButtonColor: '#614DAC',
+                    timer: 1400,
+                    timerProgressBar: true,
+                    position: 'center',
+                    showConfirmButton: false
+                }).then((result) => {
+                    window.location.href = "<?= base_url('dashboard') ?>";
+                });
+            });
         </script>
     <?php endif; ?>
 
     <?php if (isset($errors)): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <ul class="mb-0">
-            <?php foreach ($errors as $error): ?>
-            <li><?= $error ?></li>
-            <?php endforeach; ?>
-        </ul>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var errorHtml = '<ul>';
+                <?php foreach ($errors as $error): ?>
+                    errorHtml += '<li><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></li>';
+                <?php endforeach; ?>
+                errorHtml += '</ul>';
+
+                Swal.fire({
+                    title: 'Terjadi Kesalahan!',
+                    html: errorHtml,
+                    icon: 'error',
+                    confirmButtonColor: '#614DAC',
+                    position: 'center',
+                    showConfirmButton: true
+                });
+            });
+        </script>
     <?php endif; ?>
 
     <form action="<?= base_url('store') ?>" method="post" id="reservasiForm">
@@ -369,6 +387,7 @@
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 
     <script>
     $(function() {
