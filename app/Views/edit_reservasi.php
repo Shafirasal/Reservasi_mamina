@@ -306,6 +306,18 @@
                         </div>
                         
                         <div class="col-md-6 mb-3">
+                            <label class="form-label">Mengetahui Baby Spa Dari</label>
+                            <input type="text" class="form-control" 
+                                name="tau_mamina_dari" placeholder="Contoh: Instagram, Teman, dsb" required
+                                value="<?= esc($reservasi['tau_mamina_dari'] ?? '') ?>">
+                            <?php if (session('errors.tau_mamina_dari')): ?>
+                                <div class="invalid-feedback d-block"><?= session('errors.tau_mamina_dari') ?></div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Status Reservasi</label>
                             <select name="status" class="form-select" required>
                                 <option value="Menunggu" <?= $reservasi['status'] == 'Menunggu' ? 'selected' : '' ?>>Menunggu</option>
@@ -316,15 +328,56 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Pilih Layanan</label>
-                        <select name="id_layanan" class="form-select" required>
-                            <option value="" disabled>-- Pilih Layanan --</option>
-                            <?php foreach ($layanan as $l): ?>
-                            <option value="<?= $l['id_layanan'] ?>" <?= $l['id_layanan'] == $reservasi['id_layanan'] ? 'selected' : '' ?>>
-                                <?= esc($l['nama_layanan']) ?>
-                            </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label class="form-label mb-0">Pilih Layanan</label>
+                            <button type="button" id="add-layanan-edit" class="btn btn-sm" style="background-color: #614DAC; border-color: #614DAC; color: #fff;">
+                                <i class="bi bi-plus-circle"></i>
+                            </button>
+                        </div>
+
+                        <div id="layanan-container-edit">
+                            <?php
+                                $selectedLayananIds = $reservasi['id_layanan'];
+
+                                if (empty($selectedLayananIds)):
+                            ?>
+                                <div class="input-group mb-3 layanan-item-edit">
+                                    <select name="id_layanan[]" class="form-select layanan-select-edit <?= session('errors.id_layanan') ? 'is-invalid' : '' ?>" required>
+                                        <option value="" disabled selected>-- Pilih Layanan --</option>
+                                        <?php foreach ($layanan as $l): ?>
+                                            <option value="<?= $l['id_layanan'] ?>">
+                                                <?= esc($l['nama_layanan']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button type="button" class="btn btn-outline-danger remove-layanan-edit" style="display:none;"><i class="bi bi-dash-circle"></i></button>
+                                </div>
+                            <?php
+                                else:
+                                    foreach ($selectedLayananIds as $index => $selectedId):
+                            ?>
+                                <div class="input-group mb-3 layanan-item-edit">
+                                    <select name="id_layanan[]" class="form-select layanan-select-edit <?= isset(session('errors')['id_layanan.' . $index]) ? 'is-invalid' : '' ?>" required>
+                                        <option value="" disabled>-- Pilih Layanan --</option>
+                                        <?php foreach ($layanan as $l): ?>
+                                            <option value="<?= $l['id_layanan'] ?>" <?= $selectedId == $l['id_layanan'] ? 'selected' : '' ?>>
+                                                <?= esc($l['nama_layanan']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <button type="button" class="btn btn-outline-danger remove-layanan-edit" <?= (count($selectedLayananIds) === 1) ? 'style="display:none;"' : '' ?>><i class="bi bi-dash-circle"></i></button>
+                                </div>
+                                <?php if (isset(session('errors')['id_layanan.' . $index])): ?>
+                                    <div class="invalid-feedback d-block"><?= session('errors')['id_layanan.' . $index] ?></div>
+                                <?php endif; ?>
+                            <?php
+                                    endforeach;
+                                endif;
+                            ?>
+                        </div>
+                        <?php if (session('errors.id_layanan') && !is_array(session('errors.id_layanan'))): ?>
+                            <div class="invalid-feedback d-block"><?= session('errors.id_layanan') ?></div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -361,49 +414,104 @@
 
     $(document).ready(function() {
         var initialFormState = {};
-        var editableFieldNames = [
-            'tanggal_reservasi',
-            'jam_reservasi',
-            'jenis_layanan',
-            'status',
-            'id_layanan'
-        ];
+        var initialLayananState = [];
 
-        var formFieldsToMonitor = $();
-        $.each(editableFieldNames, function(index, name) {
-            formFieldsToMonitor = formFieldsToMonitor.add('[name="' + name + '"]');
-        });
-        formFieldsToMonitor.each(function() {
-            var name = $(this).attr('name');
-            if (name) {
-                initialFormState[name] = $(this).val();
-            }
-        });
+        function getCurrentLayananState() {
+            var currentLayanan = [];
+            $('.layanan-select-edit').each(function() {
+                currentLayanan.push($(this).val());
+            });
+            return currentLayanan.sort(); 
+        }
 
-        console.log("Initial Form State:", initialFormState);
+        initialFormState['tanggal_reservasi'] = $('#tanggal_reservasi').val();
+        initialFormState['jam_reservasi'] = $('#jam_reservasi').val();
+        initialFormState['jenis_layanan'] = $('[name="jenis_layanan"]').val();
+        initialFormState['status'] = $('[name="status"]').val();
+        initialFormState['tau_mamina_dari'] = $('[name="tau_mamina_dari"]').val();
+        
+        initialLayananState = getCurrentLayananState();
+
+        console.log("Initial Form State (Simple Fields):", initialFormState);
+        console.log("Initial Layanan State (Array):", initialLayananState);
 
         var submitButton = $('#submitButton');
-
-        submitButton.prop('disabled', true);
-
+        submitButton.prop('disabled', true); 
         function checkFormChanges() {
             var hasChanges = false;
-            formFieldsToMonitor.each(function() {
-                var fieldName = $(this).attr('name');
-                var currentValue = $(this).val();
-                if (String(initialFormState[fieldName]) !== String(currentValue)) {
-                    hasChanges = true;
-                    console.log("Perubahan terdeteksi pada field:", fieldName, "Nilai Awal:", initialFormState[fieldName], "Nilai Sekarang:", currentValue);
-                    return false;
+            for (var fieldName in initialFormState) {
+                if (initialFormState.hasOwnProperty(fieldName)) {
+                    var currentValue = $('[name="' + fieldName + '"]').val();
+                    if (String(initialFormState[fieldName]) !== String(currentValue)) {
+                        hasChanges = true;
+                        console.log("Perubahan terdeteksi pada field:", fieldName, "Nilai Awal:", initialFormState[fieldName], "Nilai Sekarang:", currentValue);
+                        break;
+                    }
                 }
-            });
+            }
+            if (!hasChanges) {
+                var currentLayanan = getCurrentLayananState();
+                console.log("Current Layanan State (for comparison):", currentLayanan);
+
+                if (initialLayananState.length !== currentLayanan.length) {
+                    hasChanges = true;
+                    console.log("Perubahan terdeteksi: Jumlah layanan berbeda. Awal:", initialLayananState.length, "Sekarang:", currentLayanan.length);
+                } else {
+                    for (var i = 0; i < initialLayananState.length; i++) {
+                        if (String(initialLayananState[i]) !== String(currentLayanan[i])) {
+                            hasChanges = true;
+                            console.log("Perubahan terdeteksi: Nilai layanan di indeks " + i + " berbeda. Awal:", initialLayananState[i], "Sekarang:", currentLayanan[i]);
+                            break; 
+                        }
+                    }
+                }
+            }
+            
             submitButton.prop('disabled', !hasChanges);
             console.log("Tombol Simpan dinonaktifkan:", !hasChanges);
         }
-        formFieldsToMonitor.on('input change', function() {
-            checkFormChanges();
+
+        $('#tanggal_reservasi, #jam_reservasi, [name="jenis_layanan"], [name="status"], [name="tau_mamina_dari"]').on('input change', checkFormChanges);
+
+        $('#add-layanan-edit').on('click', function() {
+            var layananOptions = `
+                <?php foreach ($layanan as $l): ?>
+                    <option value="<?= $l['id_layanan'] ?>">
+                        <?= esc($l['nama_layanan']) ?>
+                    </option>
+                <?php endforeach; ?>
+            `;
+            var newRow = `
+                <div class="input-group mb-3 layanan-item-edit">
+                    <select name="id_layanan[]" class="form-select layanan-select-edit" required>
+                        <option value="" disabled selected>-- Pilih Layanan --</option>
+                        ${layananOptions}
+                    </select>
+                    <button type="button" class="btn btn-outline-danger remove-layanan-edit"><i class="bi bi-dash-circle"></i></button>
+                </div>
+            `;
+            $('#layanan-container-edit').append(newRow);
+            updateRemoveButtons();
+            checkFormChanges(); 
         });
-        checkFormChanges();
+        $('#layanan-container-edit').on('click', '.remove-layanan-edit', function() {
+            $(this).closest('.layanan-item-edit').remove();
+            updateRemoveButtons();
+            checkFormChanges(); 
+        });
+
+        $('#layanan-container-edit').on('change', '.layanan-select-edit', checkFormChanges);
+
+        function updateRemoveButtons() {
+            var layananItems = $('.layanan-item-edit');
+            if (layananItems.length === 1) {
+                layananItems.find('.remove-layanan-edit').hide();
+            } else {
+                layananItems.find('.remove-layanan-edit').show();
+            }
+        }
+        updateRemoveButtons();
+        checkFormChanges(); 
     });
     </script>
 
