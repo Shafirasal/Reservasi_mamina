@@ -64,68 +64,29 @@ class ReservasiController extends BaseController
     // }
 
 
-public function index()
-{
-    $db = \Config\Database::connect();
+    public function index()
+    {
+        $db = \Config\Database::connect();
 
-    $builder = $db->table('reservasi');
-    $builder->select('
-        reservasi.id_reservasi,
-        reservasi.tanggal_reservasi,
-        reservasi.jenis_layanan,
-        reservasi.jam_reservasi,
-        reservasi.status,
-        pelanggan.nama_pelanggan,
-        pelanggan.id_pelanggan,
-        layanan.nama_layanan
-    ');
-    $builder->join('pelanggan', 'pelanggan.id_pelanggan = reservasi.id_pelanggan');
-    $builder->join('layanan', 'layanan.id_layanan = reservasi.id_layanan');
-    $builder->orderBy('reservasi.tanggal_reservasi', 'DESC');
+        $builder = $db->table('reservasi');
+        $builder->select('
+            reservasi.id_reservasi,
+            reservasi.tanggal_reservasi,
+            reservasi.jenis_layanan,
+            reservasi.jam_reservasi,
+            reservasi.status,
+            pelanggan.nama_pelanggan,
+            pelanggan.id_pelanggan,
+            layanan.nama_layanan
+        ');
+        $builder->join('pelanggan', 'pelanggan.id_pelanggan = reservasi.id_pelanggan');
+        $builder->join('layanan', 'layanan.id_layanan = reservasi.id_layanan');
+        $builder->orderBy('reservasi.tanggal_reservasi', 'DESC');
 
-    $data['reservasi'] = $builder->get()->getResultArray();
+        $data['reservasi'] = $builder->get()->getResultArray();
 
-    return view('dashboard', $data);
-}
-
-
-
-public function edit($id)
-{
-    $db = \Config\Database::connect();
-
-    $reservasi = $db->table('reservasi')->where('id_reservasi', $id)->get()->getRowArray();
-    $pelanggan = $db->table('pelanggan')->get()->getResultArray();
-    $layanan   = $db->table('layanan')->get()->getResultArray(); // ambil semua layanan
-
-    return view('edit_reservasi', [
-        'reservasi' => $reservasi,
-        'pelanggan' => $pelanggan,
-        'layanan'   => $layanan
-    ]);
-}
-
-
-public function update($id)
-{
-    $db = \Config\Database::connect();
-
-    $data = [
-        'tanggal_reservasi' => $this->request->getPost('tanggal_reservasi'),
-        'jenis_layanan'     => $this->request->getPost('jenis_layanan'), // kalau masih ada enum
-        'jam_reservasi'     => $this->request->getPost('jam_reservasi'),
-        'id_pelanggan'      => $this->request->getPost('id_pelanggan'),
-        'id_layanan'        => $this->request->getPost('id_layanan'), // tambahkan ini!
-        'status'            => $this->request->getPost('status')
-    ];
-
-    $db->table('reservasi')->update($data, ['id_reservasi' => $id]);
-
-    return redirect()->to('/dashboard');
-}
-
-
-
+        return view('dashboard', $data);
+    }
 
     public function create()
     {
@@ -137,7 +98,7 @@ public function update($id)
         return view('reservasi_form', $data);
     }
 
-   public function store()
+    public function store()
     {
         // Validasi input
         $rules = [
@@ -225,5 +186,59 @@ public function update($id)
             ->findAll();
 
         return $this->response->setJSON($pelanggan);
+    }
+
+    public function edit($id)
+    {
+        $db = \Config\Database::connect();
+
+        $reservasi = $db->table('reservasi')->where('id_reservasi', $id)->get()->getRowArray();
+        $pelanggan = $db->table('pelanggan')->get()->getResultArray();
+        $layanan   = $db->table('layanan')->get()->getResultArray();
+
+        return view('edit_reservasi', [
+            'reservasi' => $reservasi,
+            'pelanggan' => $pelanggan,
+            'layanan'   => $layanan
+        ]);
+    }
+
+
+    public function update($id)
+    {
+        $db = \Config\Database::connect();
+        $db->transStart();
+
+        try {
+            $data = [
+                'tanggal_reservasi' => $this->request->getPost('tanggal_reservasi'),
+                'jenis_layanan'     => $this->request->getPost('jenis_layanan'),
+                'jam_reservasi'     => $this->request->getPost('jam_reservasi'),
+                'id_pelanggan'      => $this->request->getPost('id_pelanggan'),
+                'id_layanan'        => $this->request->getPost('id_layanan'),
+                'status'            => $this->request->getPost('status')
+            ];
+
+            $affectedRows = $db->table('reservasi')->update($data, ['id_reservasi' => $id]);
+
+            if ($affectedRows === false) {
+                $error = $db->error();
+                log_message('error', 'Gagal update reservasi (DB Error): ' . $error['message']);
+                throw new \RuntimeException('Terjadi kesalahan database saat memperbarui reservasi: ' . $error['message']);
+            } else if ($affectedRows === 0) {
+                $db->transComplete();
+                log_message('debug', 'Reservasi tidak diperbarui karena tidak ada perubahan data. ID: ' . $id);
+                return redirect()->back()->with('info', 'Tidak ada perubahan pada data reservasi.');
+            } else {
+                $db->transComplete();
+                log_message('debug', 'Update reservasi berhasil. ID: ' . $id);
+                return redirect()->back()->with('success', 'Reservasi berhasil diperbarui.');
+            }
+
+        } catch (\Exception $e) {
+            $db->transRollback();
+            log_message('error', 'Error saat update reservasi: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 }
