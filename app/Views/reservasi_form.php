@@ -418,6 +418,17 @@
                     $("[name='nama_ortu_pelanggan'], [name='usia_pelanggan'], [name='no_hp_pelanggan'], [name='kota_pelanggan']")
                         .prop('readonly', true).css('background-color', 'rgba(255, 253, 235, 0.5)');
                     $("[name='status_member']").prop('disabled', true).css('background-color', 'rgba(255, 253, 235, 0.5)');
+        
+                    if (!$("#status_member_hidden").length) {
+                        $('<input>').attr({
+                            type: 'hidden',
+                            id: 'status_member_hidden',
+                            name: 'status_member',
+                            value: ui.item.data.status_member
+                        }).appendTo('form');
+                    } else {
+                        $("#status_member_hidden").val(ui.item.data.status_member);
+                    }
                 }
             }
         });
