@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\ReservasiModel;
 use App\Models\PelangganModel;
 use App\Models\LayananModel;
+use CodeIgniter\Validation\Validation;
 
 class ReservasiController extends BaseController
 {
@@ -77,13 +78,33 @@ class ReservasiController extends BaseController
             reservasi.status,
             pelanggan.nama_pelanggan,
             pelanggan.id_pelanggan,
-            layanan.nama_layanan
+            reservasi.id_layanan,
         ');
         $builder->join('pelanggan', 'pelanggan.id_pelanggan = reservasi.id_pelanggan');
-        $builder->join('layanan', 'layanan.id_layanan = reservasi.id_layanan');
         $builder->orderBy('reservasi.tanggal_reservasi', 'DESC');
 
-        $data['reservasi'] = $builder->get()->getResultArray();
+        $reservasiData = $builder->get()->getResultArray();
+        foreach ($reservasiData as &$row) {
+            if (!empty($row['id_layanan'])) {
+                $selectedLayananIds = json_decode($row['id_layanan'], true);
+                if (is_array($selectedLayananIds)) {
+                    $layananNames = [];
+                    foreach ($selectedLayananIds as $layananId) {
+                        $layananInfo = $this->layananModel->find($layananId);
+                        if ($layananInfo) {
+                            $layananNames[] = $layananInfo['nama_layanan'];
+                        }
+                    }
+                    $row['nama_layanan'] = implode(', ', $layananNames);
+                } else {
+                    $row['nama_layanan'] = 'N/A';
+                }
+            } else {
+                $row['nama_layanan'] = 'Tidak ada layanan';
+            }
+        }
+
+        $data['reservasi'] = $reservasiData;
 
         return view('dashboard', $data);
     }
@@ -110,7 +131,8 @@ class ReservasiController extends BaseController
             'jam_reservasi' => 'required',
             'jenis_layanan' => 'required',
             'tau_mamina_dari' => 'required',
-            'id_layanan' => 'required'
+            'id_layanan' => 'required',
+            'id_layanan.*' => 'required|numeric|is_not_unique[layanan.id_layanan]'
         ];
 
         if (!$this->validate($rules)) {
@@ -149,6 +171,8 @@ class ReservasiController extends BaseController
             }
 
             // Data reservasi
+            $selectedLayananIds = $this->request->getPost('id_layanan');
+            $jsonLayanan = json_encode(array_values($selectedLayananIds));
             $dataReservasi = [
                 'tanggal_reservasi' => $this->request->getPost('tanggal_reservasi'),
                 'jenis_layanan'     => $this->request->getPost('jenis_layanan'),
@@ -156,7 +180,7 @@ class ReservasiController extends BaseController
                 'jam_reservasi'     => $this->request->getPost('jam_reservasi'),
                 'status'            => 'Menunggu',
                 'id_pelanggan'      => $id_pelanggan,
-                'id_layanan'        => $this->request->getPost('id_layanan'),
+                'id_layanan'        => $jsonLayanan,
             ];
             
             // Simpan reservasi
@@ -196,26 +220,53 @@ class ReservasiController extends BaseController
         $pelanggan = $db->table('pelanggan')->get()->getResultArray();
         $layanan   = $db->table('layanan')->get()->getResultArray();
 
+        if (!empty($reservasi['id_layanan'])) {
+            $decodedLayanan = json_decode($reservasi['id_layanan'], true);
+            $reservasi['id_layanan'] = is_array($decodedLayanan) ? $decodedLayanan : [];
+        } else {
+            $reservasi['id_layanan'] = [];
+        }
+
         return view('edit_reservasi', [
             'reservasi' => $reservasi,
             'pelanggan' => $pelanggan,
-            'layanan'   => $layanan
+            'layanan'   => $layanan,
+            'validation' => \Config\Services::validation()
         ]);
     }
 
 
     public function update($id)
     {
+        $rules = [
+            'tanggal_reservasi' => 'required',
+            'jam_reservasi' => 'required',
+            'jenis_layanan' => 'required',
+            'tau_mamina_dari' => 'required',
+            'id_pelanggan' => 'required|numeric|is_not_unique[pelanggan.id_pelanggan]',
+            'id_layanan' => 'required',
+            'id_layanan.*' => 'required|numeric|is_not_unique[layanan.id_layanan]',
+            'status' => 'required|in_list[Menunggu,Selesai,Batal]'
+        ];
+
+        if (!$this->validate($rules)) {
+            log_message('error', 'Validasi gagal saat update: '.print_r($this->validator->getErrors(), true));
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
         $db = \Config\Database::connect();
         $db->transStart();
 
         try {
+            $selectedLayananIds = $this->request->getPost('id_layanan');
+            $jsonLayanan = json_encode(array_values($selectedLayananIds));
             $data = [
                 'tanggal_reservasi' => $this->request->getPost('tanggal_reservasi'),
                 'jenis_layanan'     => $this->request->getPost('jenis_layanan'),
                 'jam_reservasi'     => $this->request->getPost('jam_reservasi'),
+                'tau_mamina_dari'   => $this->request->getPost('tau_mamina_dari'),
                 'id_pelanggan'      => $this->request->getPost('id_pelanggan'),
-                'id_layanan'        => $this->request->getPost('id_layanan'),
+                'id_layanan'        => $jsonLayanan,
                 'status'            => $this->request->getPost('status')
             ];
 
