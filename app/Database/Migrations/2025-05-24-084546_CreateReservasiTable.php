@@ -45,15 +45,12 @@ class CreateReservasiTable extends Migration
                     'null'       => false
             ],
                 'id_layanan' => [
-                    'type'       => 'INT',
-                    'constraint' => 11,
-                    'unsigned'   => true,
+                    'type'       => 'TEXT',
                     'null'       => false
             ],
             ]);
         $this->forge->addKey('id_reservasi', true);
         $this->forge->addForeignKey('id_pelanggan','pelanggan','id_pelanggan');
-        $this->forge->addForeignKey('id_layanan','layanan','id_layanan');
         $this->forge->createTable('reservasi');
 
 
