@@ -212,7 +212,7 @@
             
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label class="form-label">Nama Anak</label>
+                            <label class="form-label">Nama Pelanggan/Anak</label>
                             <input type="text" class="form-control" 
                                 value="<?= esc($selectedPelanggan['nama_pelanggan'] ?? '') ?>" readonly>
                         </div>
