@@ -198,7 +198,7 @@
 
             <div class="row">
                 <div class="col-md-6 mb-3">
-                <label class="form-label">Nama Anak</label>
+                <label class="form-label">Nama Pelanggan/Anak</label>
                 <input type="text" class="form-control" value="<?= esc($pelanggan['nama_pelanggan']) ?>" readonly>
                 </div>
                 <div class="col-md-6 mb-3">
@@ -225,7 +225,7 @@
             <?php else: ?>
             <div class="row">
                 <div class="col-md-6 mb-3">
-                <label class="form-label">Nama Anak</label>
+                <label class="form-label">Nama Pelanggan/Anak</label>
                 <input type="text" class="form-control <?= session('errors.nama_pelanggan') ? 'is-invalid' : '' ?>" 
                         name="nama_pelanggan" id="nama_pelanggan" placeholder="Nama lengkap" required
                         value="<?= old('nama_pelanggan') ?>">
