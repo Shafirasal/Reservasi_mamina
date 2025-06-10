@@ -19,104 +19,99 @@ class BroadcastController extends BaseController
     }
 
     public function send($id)
-    {
-        
+{
+    $pelangganModel = new PelangganModel();
+    $reservasiModel = new ReservasiModel();
 
-        $pelangganModel = new PelangganModel();
-        $reservasiModel = new ReservasiModel();
+    $pelanggan = $pelangganModel->find($id);
+    $reservasi = $reservasiModel
+                ->where('id_pelanggan', $id)
+                ->orderBy('tanggal_reservasi', 'DESC')
+                ->first();
 
-        $pelanggan = $pelangganModel->find($id);
-        $reservasi = $reservasiModel
-                    ->where('id_pelanggan', $id)
-                    ->orderBy('tanggal_reservasi', 'DESC')
-                    ->first();
-        if (!$reservasi || !$pelanggan) {
-            return redirect()->back()->with('error', 'Data reservasi atau pelanggan tidak ditemukan.');
-        }
-        $tanggalRaw = strtotime($reservasi['tanggal_reservasi']);
-        $jam = date('H:i', strtotime($reservasi['jam_reservasi']));
-        $hari = [
-            'Sunday' => 'Minggu',
-            'Monday' => 'Senin',
-            'Tuesday' => 'Selasa',
-            'Wednesday' => 'Rabu',
-            'Thursday' => 'Kamis',
-            'Friday' => 'Jumat',
-            'Saturday' => 'Sabtu'
-        ];
+    if (!$reservasi || !$pelanggan) {
+        return redirect()->back()->with('error', 'Data reservasi atau pelanggan tidak ditemukan.');
+    }
 
-        $bulan = [
-            '01' => 'Januari',
-            '02' => 'Februari',
-            '03' => 'Maret',
-            '04' => 'April',
-            '05' => 'Mei',
-            '06' => 'Juni',
-            '07' => 'Juli',
-            '08' => 'Agustus',
-            '09' => 'September',
-            '10' => 'Oktober',
-            '11' => 'November',
-            '12' => 'Desember'
-        ];
-        $dayName = $hari[date('l', $tanggalRaw)];
-        $tgl = date('d', $tanggalRaw);
-        $bulanName = $bulan[date('m', $tanggalRaw)];
-        $tahun = date('Y', $tanggalRaw);
+    // Format tanggal dan jam
+    $tanggalRaw = strtotime($reservasi['tanggal_reservasi']);
+    $jam = date('H:i', strtotime($reservasi['jam_reservasi']));
 
-        $tanggal = "$dayName, tanggal $tgl $bulanName, $tahun";
+    $hari = [
+        'Sunday' => 'Minggu',
+        'Monday' => 'Senin',
+        'Tuesday' => 'Selasa',
+        'Wednesday' => 'Rabu',
+        'Thursday' => 'Kamis',
+        'Friday' => 'Jumat',
+        'Saturday' => 'Sabtu'
+    ];
 
-        $nama = $pelanggan['nama_pelanggan'];
-        $no_hp = $pelanggan['no_hp_pelanggan'];
+    $bulan = [
+        '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+        '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+        '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+    ];
 
-        $pesan ="Halo Bunda 😊 \n\n
-                Jangan lupa, bunda ada treatment pada hari {$tanggal} di jam {$jam}. \n
-                Kami menginfokan bunda agar tidak terlambat dikarenakan akan mempengaruhi jadwal treatment selanjutnya. \n
-                Jika terdapat hal diluar kendali bunda yang membuat terlambat, diharapkan konfirmasi 2 jam sebelum treatment nggih. \n
-                Jika cancel atau reschedule treatment, harap konfirmasi maksimal 1 hari sebelum tanggal treatment nggih. \n
-                Jika tidak ada konfirmasi dari bunda akan kami CANCEL setelah kami tunggu hingga 10 menit dari jam reservasi treatment 🙏🏻 \n
-                Terimakasih Bunda 🥰🙏🏻\n
-                -------------------
-                MAMINA MALANG";
-        // fungsi sementara 
-        header("Content-Type: text/plain");
-        echo "Nama: $nama\n";
-        echo "No. HP: $no_hp\n";
-        echo "Pesan:\n$pesan";
-        // === Send to API === 
-        //$apiUrl = 'https://example.com/api/send-message'; // Replace with your API provider URL
-        //$apiKey = 'YOUR_API_KEY_HERE'; // Replace with your actual API key
-//
-        //$payload = [
-        //    'phone' => $no_hp,
-        //    'message' => $pesan,
-        //];
-//
-        //$client = \Config\Services::curlrequest();
-        //try {
-        //    $response = $client->post($apiUrl, [
-        //        'headers' => [
-        //            'Authorization' => $apiKey,
-        //            'Content-Type'  => 'application/json',
-        //        ],
-        //        'body' => json_encode($payload),
-        //    ]);
-//
-        //    $responseData = json_decode($response->getBody(), true);
-        //    if (isset($responseData['status']) && $responseData['status'] === 'success') {
-        //        return redirect()->back()->with('success', 'Reminder berhasil dikirim.');
-        //    } else {
-        //        return redirect()->back()->with('error', 'Gagal mengirim reminder.');
-        //    }
-        //} catch (\Exception $e) {
-        //    log_message('error', 'API error: ' . $e->getMessage());
-        //    return redirect()->back()->with('error', 'Terjadi kesalahan saat mengirim reminder.');
-        //}
-            //exit;
+    $dayName = $hari[date('l', $tanggalRaw)];
+    $tgl = date('d', $tanggalRaw);
+    $bulanName = $bulan[date('m', $tanggalRaw)];
+    $tahun = date('Y', $tanggalRaw);
+    $tanggal = "$dayName, tanggal $tgl $bulanName, $tahun";
 
-        return redirect()->back()->with('status', 'Reminder berhasil dikirim');
+    $nama = $pelanggan['nama_pelanggan'];
+    $no_hp =  $pelanggan['no_hp_pelanggan']; // Ensure number is numeric
 
-        
-        
-        }
+    // Format pesan
+    $pesan = "Halo Bunda 😊 \n\n"
+           . "Jangan lupa, bunda ada treatment pada hari {$tanggal} di jam {$jam}. \n"
+           . "Kami menginfokan bunda agar tidak terlambat dikarenakan akan mempengaruhi jadwal treatment selanjutnya. \n"
+           . "Jika terdapat hal diluar kendali bunda yang membuat terlambat, diharapkan konfirmasi 2 jam sebelum treatment nggih. \n"
+           . "Jika cancel atau reschedule treatment, harap konfirmasi maksimal 1 hari sebelum tanggal treatment nggih. \n"
+           . "Jika tidak ada konfirmasi dari bunda akan kami CANCEL setelah kami tunggu hingga 10 menit dari jam reservasi treatment 🙏🏻 \n"
+           . "Terimakasih Bunda 🥰🙏🏻\n"
+           . "-------------------\n"
+           . "MAMINA MALANG";
+
+    // API setup
+    $curl = curl_init();
+$token = "GNZMk9TteQJj9ooLoPCuAF898KDaJTbeagVdNpvYDVsMOJq2SgHWSBXQsVHZ41kM.ULyzAU93";
+$random = true;
+$payload = [
+    "data" => [
+        [
+            'phone' => $no_hp,
+            'message' => $pesan,
+            'isGroup' => 'false'
+        ]
+    ]
+];
+curl_setopt($curl, CURLOPT_HTTPHEADER,
+    array(
+        "Authorization: $token",
+        "Content-Type: application/json"
+    )
+);
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload) );
+curl_setopt($curl, CURLOPT_URL,  "https://pati.wablas.com/api/v2/send-message");
+curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+$result = curl_exec($curl);
+curl_close($curl);
+
+// Decode the result to check if it was successful
+$response = json_decode($result, true);
+
+if (isset($response['status']) && $response['status'] === true) {
+    return redirect()->back()->with('status', 'Reminder berhasil dikirim.');
+} else {
+    return redirect()->back()->with('status', 'Gagal mengirim reminder.');
+}
+}
+
+
+
 }
