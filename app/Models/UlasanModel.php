@@ -12,6 +12,7 @@ class UlasanModel extends Model
     protected $allowedFields = [
         'id_pelanggan',
         'id_layanan',
+        'id_reservasi',
         'kualitas_layanan',
         'kenyamanan_fasilitas',
         'kesesuaian_harga',
