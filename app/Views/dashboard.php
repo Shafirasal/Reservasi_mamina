@@ -315,9 +315,6 @@
                 <i class="bi bi-calendar-x"></i>
                 <h4>Tidak ada reservasi</h4>
                 <p>Belum ada data reservasi yang tersedia</p>
-                <a href="<?= base_url('/create') ?>" class="btn btn-success mt-2">
-                  <i class="bi bi-plus-lg me-1"></i> Buat Reservasi Baru
-                </a>
               </div>
             </td>
           </tr>
