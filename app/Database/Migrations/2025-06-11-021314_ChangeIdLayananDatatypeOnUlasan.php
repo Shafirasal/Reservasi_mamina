@@ -15,8 +15,9 @@ class ChangeIdLayananDatatypeOnUlasan extends Migration
         $this->forge->modifyColumn('ulasan', [
             'id_layanan' => [
                 'name'       => 'id_layanan',
-                'type'       => 'TEXT',
+                'type'       => 'VARCHAR',
                 'null'       => true,
+                'constraint' => 30,
             ],
         ]);
     }

@@ -3,6 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
+use PHPUnit\Framework\Constraint\Constraint;
 
 class CreateReservasiTable extends Migration
 {
@@ -46,7 +47,8 @@ class CreateReservasiTable extends Migration
             ],
                 'id_layanan' => [
                     'type'       => 'TEXT',
-                    'null'       => false
+                    'null'       => false,
+                    'constraint'    => 30
             ],
             ]);
         $this->forge->addKey('id_reservasi', true);
