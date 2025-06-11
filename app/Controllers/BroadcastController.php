@@ -63,13 +63,13 @@ class BroadcastController extends BaseController
     $no_hp =  $pelanggan['no_hp_pelanggan']; // Ensure number is numeric
 
     // Format pesan
-    $pesan = "Halo Bunda 😊 \n\n"
-           . "Jangan lupa, bunda ada treatment pada hari {$tanggal} di jam {$jam}. \n"
-           . "Kami menginfokan bunda agar tidak terlambat dikarenakan akan mempengaruhi jadwal treatment selanjutnya. \n"
-           . "Jika terdapat hal diluar kendali bunda yang membuat terlambat, diharapkan konfirmasi 2 jam sebelum treatment nggih. \n"
-           . "Jika cancel atau reschedule treatment, harap konfirmasi maksimal 1 hari sebelum tanggal treatment nggih. \n"
-           . "Jika tidak ada konfirmasi dari bunda akan kami CANCEL setelah kami tunggu hingga 10 menit dari jam reservasi treatment 🙏🏻 \n"
-           . "Terimakasih Bunda 🥰🙏🏻\n"
+    $pesan = "Halo Ayah / Bunda {$nama} 😊 \n\n"
+           . "Jangan lupa, ada treatment pada hari {$tanggal} di jam {$jam}. \n\n"
+           . "Kami menginfokan jadwal treatment agar tidak terlambat dikarenakan keterlambatan akan mempengaruhi jadwal treatment selanjutnya. \n\n"
+           . "Jika terdapat hal diluar kendali anda yang membuat terlambat, diharapkan konfirmasi 2 jam sebelum treatment nggih. \n\n"
+           . "Jika cancel atau reschedule treatment, harap konfirmasi maksimal 1 hari sebelum tanggal treatment nggih. \n\n"
+           . "Jika tidak ada konfirmasi, akan kami CANCEL setelah kami tunggu hingga 10 menit dari jam reservasi treatment 🙏🏻 \n\n"
+           . "Terimakasih 🥰🙏🏻\n"
            . "-------------------\n"
            . "MAMINA MALANG";
 

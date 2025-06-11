@@ -136,18 +136,25 @@
     <?php endif; ?>
 
     <!-- Form -->
+     <label> Nama Pelanggan </label>
     <form action="<?= base_url('simpan') ?>" method="post">
     <input type="text" value="<?= esc($nama_pelanggan) ?>" disabled>
     <input type="hidden" name="id_pelanggan" value="<?= esc($id_pelanggan) ?>">
+    
+    <label> Layanan </label>
+   <?php
+    $namaLayananGabung = implode(', ', array_column($layanan_list, 'nama_layanan'));
+?>
+<input type="text" value="<?= esc($namaLayananGabung) ?>" disabled>
 
+<?php foreach ($layanan_list as $layanan): ?>
+    <input type="hidden" name="id_layanan[]" value="<?= esc($layanan['id_layanan']) ?>">
+<?php endforeach; ?>
 
-    <input type="text" value="<?= esc($nama_layanan) ?>" disabled>
-    <input type="hidden" name="id_layanan" value="<?= esc($id_layanan) ?>">
 
 
         <!-- Hidden untuk ID penting -->
     <input type="hidden" name="id_pelanggan" value="<?= esc($id_pelanggan) ?>">
-    <input type="hidden" name="id_layanan" value="<?= esc($id_layanan) ?>">
     <input type="hidden" name="id_reservasi" value="<?= esc($id_reservasi) ?>">
 
 
