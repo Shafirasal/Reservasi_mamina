@@ -35,14 +35,15 @@ class BroadcastUlasanController extends BaseController
 
         $link_form = "http://localhost:8080/form-ulasan?id_reservasi=" . $id_reservasi; // Ganti dengan link form ulasan kamu
 
-        $pesan = "🌸 Halo Bunda 😊\n\n"
+        $pesan = "🌸 Halo Ayah / Bunda 😊\n\n"
                . "Terima kasih sudah mempercayakan perawatan di Mamina Malang 💖\n"
                . "Kami mohon bantuannya untuk mengisi form ulasan ya, Bunda, supaya kami bisa terus memberikan pelayanan terbaik ke depannya ✨\n\n"
                . "📝 Link form ulasan: $link_form\n\n"
                . "Isi form-nya sebentar saja kok, nggak sampai 2 menit 🍃\n"
-               . "Kami tunggu ya, Bunda sayang 🥰\n"
+               . "Kami tunggu ya, Bunda 🥰\n"
                . "Terima kasih banyak atas waktunya 🙏🏻\n\n"
                . "Salam hangat,\n"
+               . "-------------- \n" 
                . "MAMINA MALANG 🌷";
 
         $token = "GNZMk9TteQJj9ooLoPCuAF898KDaJTbeagVdNpvYDVsMOJq2SgHWSBXQsVHZ41kM.ULyzAU93";
