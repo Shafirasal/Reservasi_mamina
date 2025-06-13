@@ -125,14 +125,18 @@
 
     <!-- Notifikasi dengan SweetAlert jika sukses -->
     <?php if (session()->getFlashdata('success')): ?>
-        <script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil!',
                 text: '<?= session()->getFlashdata('success') ?>',
-                confirmButtonColor: '#f06090'
+                confirmButtonColor: '#f06090',
+                allowOutsideClick: false,
+                allowEscapeKey: false
             });
-        </script>
+        });
+    </script>
     <?php endif; ?>
 
     <!-- Form -->
