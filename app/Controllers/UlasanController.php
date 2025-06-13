@@ -87,6 +87,6 @@ class UlasanController extends BaseController
 ]);
 
 
-        return redirect()->to('/form-ulasan')->with('success', 'Terima kasih atas ulasan Anda!');
+    return redirect()->back()->with('success', 'Terima kasih atas ulasan Anda!');
     }
 }
