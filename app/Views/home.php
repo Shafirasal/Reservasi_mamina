@@ -1,4 +1,4 @@
-<?= $this->include('templates/header') ?>
+<?= $this->include('template/header') ?>
 
 <section class="hero">
     <div class="hero-content">
@@ -12,4 +12,4 @@
     </div>
 </section>
 
-<?= $this->include('templates/footer') ?>
+<?= $this->include('template/footer') ?>
