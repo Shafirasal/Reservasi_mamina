@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+.navbar {
+    background-color: #d40000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.social {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.order-btn {
+    background-color: #fff;
+    color: #d40000;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 100px;
+    background: url('../images/bg-brick.jpg') no-repeat center center;
+    background-size: cover;
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.welcome-text {
+    color: orange;
+    font-weight: bold;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    margin: 10px 0;
+}
+
+.btn-order {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #d40000;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.hero-img {
+    position: relative;
+}
+
+.hero-img img {
+    max-width: 400px;
+}
+
+.discount {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    background: yellow;
+    color: black;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 50%;
+}
