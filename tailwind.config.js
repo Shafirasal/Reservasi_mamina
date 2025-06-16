@@ -3,7 +3,11 @@ module.exports = {
   content: ["./app/Views/**/*.php",
     "./public/**/*.js"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily:{
+        sans:['Poppins', 'sans-serif'],
+      }
+    },
   },
   plugins: [],
 }
