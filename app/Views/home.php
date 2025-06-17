@@ -10,13 +10,13 @@
     <div class="md:w-1/2 text-left">
       <p class="text-white-400 font-bold mb-2"></p>
       <h1 class="text-5xl font-extrabold leading-tight mb-6">Sistem Informasi Reservasi dan Reminder</h1>
+      <h2 class="text-2xl leading-tight mb-6">Aplikasi yang dikembangkan untuk mempermudah manajemen data reservasi pelanggan, dilengkapi dengan fitur pengiriman pesan pengingat dan pengiriman link pengisian ulasan oleh pelanggan melalui Whatsapp.</h2>
+
       <a href="/dashboard" class="inline-block bg-red-600 hover:bg-red-500 text-white font-bold py-3 px-6 rounded">Masuk</a>
     </div>
 
     <!-- Right Image -->
-    <div class="relative md:w-1/2 mt-10 md:mt-0">
-      <img src="<?= base_url('images/chicken-bucket.png') ?>" alt="Fried Chicken" class="w-full max-w-sm mx-auto">
-    </div>
+
   </div>
 </section>
 
