@@ -16,7 +16,8 @@ module.exports = {
   plugins: [],
   safelist: [
     'text-[#555555]',
-    'bg[#FEF8F8]'
+    'bg[#FEF8F8]',
+    'shape-fill'
   ],
 }
 
