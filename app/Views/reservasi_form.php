@@ -250,7 +250,7 @@
                 <div class="col-md-4 mb-3">
                 <label class="form-label">No HP</label>
                 <input type="text" class="form-control <?= session('errors.no_hp_pelanggan') ? 'is-invalid' : '' ?>" 
-                        name="no_hp_pelanggan" id="no_hp_pelanggan" placeholder="08xxxxxxxxxx" required
+                        name="no_hp_pelanggan" id="no_hp_pelanggan" placeholder="62xxxxxxxxxx" required
                         value="<?= old('no_hp_pelanggan') ?>">
                 <?php if (session('errors.no_hp_pelanggan')): ?>
                     <div class="invalid-feedback"><?= session('errors.no_hp_pelanggan') ?></div>
