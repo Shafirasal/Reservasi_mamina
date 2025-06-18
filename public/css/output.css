@@ -800,6 +800,10 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity, 1));
 }
+.bg-purple {
+  --tw-bg-opacity: 1;
+  background-color: #614DAC;
+}
 
 .bg-white {
   --tw-bg-opacity: 1;
