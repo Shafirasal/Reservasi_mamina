@@ -19,12 +19,9 @@
   <div class="container mx-auto flex justify-between items-center px-6">
     <div class="text-xl font-bold">MAMINA</div>
     <nav class="space-x-4 hidden md:flex">
-      <a href="#" class="hover:text-[#555555]">Home</a>
-      <a href="#" class="hover:text-[#528b89]">About Us</a>
-      <a href="#" class="hover:text-[#528b89]">Shop</a>
-      <a href="#" class="hover:text-[#528b89]">Pages</a>
-      <a href="#" class="hover:text-[#528b89]">Blog</a>
-      <a href="#" class="hover:text-[#528b89]">Contact</a>
+      <a href="https://drive.google.com/drive/folders/1m6e6DeaFEetYlSsy8-k2j2pKDBSSdW96" class="hover:text-[#528b89]">Manual Book</a>
+      <a href="#" class="hover:text-[#528b89]">Support</a>
+
 
     </nav>
   </div>

@@ -11,7 +11,7 @@
         <!-- Left Text -->
         <div class="md:w-1/2 text-left">
             <h1 class="text-5xl font-extrabold leading-tight mb-5 text-[#555555]">Sistem Informasi Reservasi dan Reminder</h1>
-            <p class="text-[#555555] mb-6">Mamina Baby Spa dan Pijat Laktasi merupakan penyedia layanan kebidanan komplementer berpusat di Kota Malang berupa layanan ibu dan bayi</p>
+            <p class="text-[#555555] mb-6">Mamina Baby Spa dan Pijat Laktasi merupakan penyedia layanan kebidanan komplementer yang berpusat di Kota Malang berupa layanan ibu dan bayi. Aplikasi ini dikembangkan untuk mempermudah manajemen data reservasi pelanggan, dilengkapi dengan fitur pengiriman pesan pengingat dan pengiriman link pengisian ulasan oleh pelanggan melalui Whatsapp.</p>
             <a href="/dashboard" class="inline-block bg-[#EE9591] hover:bg-[#e6847d] text-white font-bold py-3 px-6 rounded shadow-lg transition-colors duration-300">Masuk</a>
         </div>
 
