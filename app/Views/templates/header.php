@@ -19,7 +19,7 @@
 <header style="background-color: #FEF8F8;" class="py-4"> -->
 <header class="py-4 text-[#555555]" style="background-color: #FEF8F8;">
   <div class="container mx-auto flex justify-between items-center px-6">
-    <a href="htttps://www.mamina.id">
+    <a href="https://www.mamina.id">
     <img src="<?= base_url('assets/text_mamina.PNG') ?>"style="width: 200px" alt="mamina">
 </a>
     <nav class="space-x-4 hidden md:flex">
