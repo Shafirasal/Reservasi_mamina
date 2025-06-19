@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Form Ulasan Pelanggan</title>
+      <link rel="icon" href="<?= base_url('assets/logo_mamina_tab.png') ?>" type="image/png">
 
     <!-- SweetAlert2 CDN -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
