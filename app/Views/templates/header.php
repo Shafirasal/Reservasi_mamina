@@ -23,7 +23,7 @@
     <img src="<?= base_url('assets/text_mamina.PNG') ?>"style="width: 200px" alt="mamina">
 </a>
     <nav class="space-x-4 hidden md:flex">
-      <a href="https://drive.google.com/drive/folders/1m6e6DeaFEetYlSsy8-k2j2pKDBSSdW96" class="hover:text-[#528b89]">Manual Book</a>
+      <a href="https://drive.google.com/file/d/1aQ6rMEHZYMpkCRISd7jqhThtGjldOn95/view?usp=sharing" class="hover:text-[#528b89]">Manual Book</a>
       <a href="https://wa.me/6289696624512" class="hover:text-[#528b89]">Support</a>
 
 
