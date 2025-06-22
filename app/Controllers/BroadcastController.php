@@ -63,7 +63,8 @@ class BroadcastController extends BaseController
     $nama_bunda = $pelanggan['nama_ortu_pelanggan'];
     $no_hp =  $pelanggan['no_hp_pelanggan']; // Ensure number is numeric
 
-    if($nama_bunda === null) {
+
+    if($nama_bunda === null || $nama_bunda === '') {
         $pesan = "Halo Bunda {$nama} 😊 \n\n"
            . "Jangan lupa, ada treatment pada hari *{$tanggal}* di jam *{$jam}*. \n\n"
            . "Kami menginfokan jadwal treatment agar tidak terlambat dikarenakan keterlambatan akan mempengaruhi jadwal treatment selanjutnya. \n\n"
