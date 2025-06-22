@@ -155,7 +155,7 @@ class ReservasiController extends BaseController
                     'nama_pelanggan'      => $this->request->getPost('nama_pelanggan'),
                     'nama_ortu_pelanggan' => $this->request->getPost('nama_ortu_pelanggan'),
                     'usia_pelanggan'      => $this->request->getPost('usia_pelanggan'),
-                    'no_hp_pelanggan'     => $this->request->getPost('no_hp_pelanggan'),
+                    'no_hp_pelanggan'     => '62'. $this->request->getPost('no_hp_pelanggan'),
                     'kota_pelanggan'      => $this->request->getPost('kota_pelanggan'),
                     'status_member'       => (int)$this->request->getPost('status_member')
                 ];

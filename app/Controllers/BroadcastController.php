@@ -60,11 +60,12 @@ class BroadcastController extends BaseController
     $tanggal = "$dayName, tanggal $tgl $bulanName, $tahun";
 
     $nama = $pelanggan['nama_pelanggan'];
+    $nama_bunda = $pelanggan['nama_ortu_pelanggan'];
     $no_hp =  $pelanggan['no_hp_pelanggan']; // Ensure number is numeric
 
-    // Format pesan
-    $pesan = "Halo Ayah / Bunda {$nama} 😊 \n\n"
-           . "Jangan lupa, ada treatment pada hari {$tanggal} di jam {$jam}. \n\n"
+    if($nama_bunda === null) {
+        $pesan = "Halo Bunda {$nama} 😊 \n\n"
+           . "Jangan lupa, ada treatment pada hari *{$tanggal}* di jam *{$jam}*. \n\n"
            . "Kami menginfokan jadwal treatment agar tidak terlambat dikarenakan keterlambatan akan mempengaruhi jadwal treatment selanjutnya. \n\n"
            . "Jika terdapat hal diluar kendali anda yang membuat terlambat, diharapkan konfirmasi 2 jam sebelum treatment nggih. \n\n"
            . "Jika cancel atau reschedule treatment, harap konfirmasi maksimal 1 hari sebelum tanggal treatment nggih. \n\n"
@@ -72,6 +73,20 @@ class BroadcastController extends BaseController
            . "Terimakasih 🥰🙏🏻\n"
            . "-------------------\n"
            . "MAMINA MALANG";
+    } else {
+        $pesan = "Halo Bunda {$nama_bunda} 😊 \n\n"
+           . "Jangan lupa, ada treatment untuk adik {$nama} pada hari *{$tanggal}* di jam *{$jam}*. \n\n"
+           . "Kami menginfokan jadwal treatment agar tidak terlambat dikarenakan keterlambatan akan mempengaruhi jadwal treatment selanjutnya. \n\n"
+           . "Jika terdapat hal diluar kendali anda yang membuat terlambat, diharapkan konfirmasi 2 jam sebelum treatment nggih. \n\n"
+           . "Jika cancel atau reschedule treatment, harap konfirmasi maksimal 1 hari sebelum tanggal treatment nggih. \n\n"
+           . "Jika tidak ada konfirmasi, akan kami CANCEL setelah kami tunggu hingga 10 menit dari jam reservasi treatment 🙏🏻 \n\n"
+           . "Terimakasih 🥰🙏🏻\n"
+           . "-------------------\n"
+           . "MAMINA MALANG";
+    }
+
+    // Format pesan
+    
 
     // API setup
     $curl = curl_init();
