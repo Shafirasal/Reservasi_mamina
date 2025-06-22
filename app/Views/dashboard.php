@@ -137,8 +137,8 @@
     }
 
     .table th {
-      background-color: var(--primary);
-      color: white;
+      background-color: #b4ebe6;
+      color: black;
       text-align: center;
       font-weight: 500;
       padding: 1rem;
