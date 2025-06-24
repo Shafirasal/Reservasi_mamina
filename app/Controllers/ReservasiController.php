@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\ReservasiModel;
 use App\Models\PelangganModel;
 use App\Models\LayananModel;
+use App\Models\TerapisModel;
 use CodeIgniter\Validation\Validation;
 
 class ReservasiController extends BaseController
@@ -11,12 +12,16 @@ class ReservasiController extends BaseController
     protected $pelangganModel;
     protected $layananModel;
     protected $reservasiModel;
+    protected $terapisModel;
+
 
     public function __construct()
     {
         $this->pelangganModel = new PelangganModel();
         $this->layananModel = new LayananModel();
         $this->reservasiModel = new ReservasiModel();
+        $this->terapisModel = new TerapisModel();
+
     }
 
     //  public function index()
@@ -114,6 +119,7 @@ class ReservasiController extends BaseController
         $data = [
             'pelanggan' => null,
             'layanan' => $this->layananModel->findAll(),
+            'terapis'   => $this->terapisModel->findAll(), 
             'validation' => \Config\Services::validation()
         ];
         return view('reservasi_form', $data);
@@ -121,6 +127,22 @@ class ReservasiController extends BaseController
 
     public function store()
     {
+
+    log_message('debug', 'Store method called');
+    
+    // Debug: Check request method
+    log_message('debug', 'Request method: ' . $this->request->getMethod());
+    
+    // Debug: Check if it's POST request
+    if (!$this->request->getMethod() === 'post') {
+        log_message('error', 'Not a POST request');
+        return redirect()->back()->with('error', 'Invalid request method');
+    }
+
+    $data = $this->request->getPost();
+    log_message('debug', 'Data yang dikirim: ' . print_r($data, true));
+    
+
         // Validasi input
         $rules = [
             'nama_pelanggan' => 'required',
@@ -132,7 +154,10 @@ class ReservasiController extends BaseController
             'jenis_layanan' => 'required',
             'tau_mamina_dari' => 'required',
             'id_layanan' => 'required',
-            'id_layanan.*' => 'required|numeric|is_not_unique[layanan.id_layanan]'
+            'id_layanan.*' => 'required|numeric|is_not_unique[layanan.id_layanan]',
+            'id_terapis' => 'required|numeric|is_not_unique[terapis.id_terapis]',
+
+            
         ];
 
         if (!$this->validate($rules)) {
@@ -173,6 +198,7 @@ class ReservasiController extends BaseController
             // Data reservasi
             $selectedLayananIds = $this->request->getPost('id_layanan');
             $jsonLayanan = json_encode(array_values($selectedLayananIds));
+            $id_terapis = $this->request->getPost('id_terapis');
             $dataReservasi = [
                 'tanggal_reservasi' => $this->request->getPost('tanggal_reservasi'),
                 'jenis_layanan'     => $this->request->getPost('jenis_layanan'),
@@ -181,6 +207,7 @@ class ReservasiController extends BaseController
                 'status'            => 'Menunggu',
                 'id_pelanggan'      => $id_pelanggan,
                 'id_layanan'        => $jsonLayanan,
+                'id_terapis'        => $id_terapis,
             ];
             
             // Simpan reservasi

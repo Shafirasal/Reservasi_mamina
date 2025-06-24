@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8" /><!DOCTYPE html>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Form Reservasi Baby Spa</title>
@@ -356,6 +359,25 @@
                 <div class="invalid-feedback"><?= session('errors.tau_mamina_dari') ?></div>
                 <?php endif; ?>
             </div>
+
+<div class="col-md-6 mb-3">
+    <label class="form-label">Terapis</label>
+    <select name="id_terapis" class="form-select <?= session('errors.id_terapis') ? 'is-invalid' : '' ?>" required>
+        <option value="" disabled selected>-- Pilih Terapis --</option>
+        <?php foreach ($terapis as $t): ?>
+            <option value="<?= $t['id_terapis'] ?>" <?= old('id_terapis') == $t['id_terapis'] ? 'selected' : '' ?>>
+                <?= $t['nama_terapis'] ?>
+            </option>
+        <?php endforeach; ?>
+    </select>
+    <?php if (session('errors.id_terapis')): ?>
+        <div class="invalid-feedback"><?= session('errors.id_terapis') ?></div>
+    <?php endif; ?>
+</div>
+
+ 
+
+
             </div>
 
             <div class="mb-3">
