@@ -15,5 +15,6 @@ class ReservasiModel extends Model
         'status',
         'id_pelanggan',
         'id_layanan',
+        'id_terapis',
     ];
 }
