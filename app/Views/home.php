@@ -15,7 +15,7 @@
             <a href="/dashboard" class="inline-block bg-[#EE9591] hover:bg-[#e6847d] text-white font-bold py-3 px-6 rounded shadow-lg transition-colors duration-300">Masuk</a>
         </div>
 
-        <!-- Right Image with Blob Background -->
+        <!-- Right Image with Blob Backgroundd -->
         <div class="relative md:w-1/2 mt-10 md:mt-0">
             <!-- Blob positioned behind the image -->
             <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] pointer-events-none opacity-25 z-0">
